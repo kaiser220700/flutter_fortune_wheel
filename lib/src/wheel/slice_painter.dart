@@ -88,7 +88,8 @@ class _CircleSlicePainter extends CustomPainter {
   bool shouldRepaint(_CircleSlicePainter oldDelegate) {
     return angle != oldDelegate.angle ||
         fillColor != oldDelegate.fillColor ||
-        border.side != oldDelegate.border.side ||
+        border.left != oldDelegate.border.left ||
+        border.right != oldDelegate.border.right ||
         border.bottom != oldDelegate.border.bottom;
   }
 }

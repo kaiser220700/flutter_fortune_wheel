@@ -21,7 +21,8 @@ class FortuneBar extends HookWidget implements FortuneWidget {
 
   static const StyleStrategy kDefaultStyleStrategy = UniformStyleStrategy(
       border: SliceBorder(
-    side: BorderSide(width: 4, color: Colors.black),
+    left: BorderSide(width: 4, color: Colors.black),
+    right: BorderSide(width: 4, color: Colors.black),
     bottom: BorderSide(width: 4, color: Colors.black),
   ));
 

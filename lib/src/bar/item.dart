@@ -60,13 +60,21 @@ class _FortuneBarItem extends StatelessWidget {
       onTertiaryTapDown: item.onTertiaryTapDown,
       onTertiaryTapUp: item.onTertiaryTapUp,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.symmetric(
-            horizontal: BorderSide(
-              color: style.border.side.color,
-              width: style.border.side.width / 2,
+       decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(
+              color: style.border.left.color,
+              width: style.border.left.width / 2,
             ),
-            vertical: BorderSide(
+            right: BorderSide(
+              color: style.border.right.color,
+              width: style.border.right.width / 2,
+            ),
+            bottom: BorderSide(
+              color: style.border.bottom.color,
+              width: style.border.bottom.width / 4,
+            ),
+            top: BorderSide(
               color: style.border.bottom.color,
               width: style.border.bottom.width / 4,
             ),
