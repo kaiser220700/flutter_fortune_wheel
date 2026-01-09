@@ -1,19 +1,27 @@
 part of 'wheel.dart';
 
+class SliceBorder {
+  final BorderSide side;
+  final BorderSide bottom;
+
+  const SliceBorder({
+    this.side = BorderSide.none,
+    this.bottom = BorderSide.none,
+  });
+}
+
 /// Draws a slice of a circle. The slice's arc starts at the right (3 o'clock)
 /// and moves clockwise as far as specified by angle.
 class _CircleSlicePainter extends CustomPainter {
   final Color fillColor;
-  final Color? strokeColor;
-  final double strokeWidth;
+  final SliceBorder border;
   final double angle;
   final Gradient? gradient;
 
   const _CircleSlicePainter({
     required this.fillColor,
-    this.strokeColor,
     this.gradient,
-    this.strokeWidth = 1,
+    this.border = const SliceBorder(),
     this.angle = _math.pi / 2,
   }) : assert(angle > 0 && angle < 2 * _math.pi);
 
@@ -44,12 +52,12 @@ class _CircleSlicePainter extends CustomPainter {
     }
 
     // draw slice border
-    if (strokeWidth > 0) {
+    if (border.side.width > 0) {
       canvas.drawPath(
         path,
         Paint()
-          ..color = strokeColor!
-          ..strokeWidth = strokeWidth
+          ..color = border.side.color
+          ..strokeWidth = border.side.width
           ..style = PaintingStyle.stroke,
       );
 
@@ -64,8 +72,8 @@ class _CircleSlicePainter extends CustomPainter {
               angle,
               false),
         Paint()
-          ..color = strokeColor!
-          ..strokeWidth = strokeWidth * 2
+          ..color = border.bottom.color
+          ..strokeWidth = border.bottom.width * 2
           ..style = PaintingStyle.stroke,
       );
     }
@@ -75,7 +83,7 @@ class _CircleSlicePainter extends CustomPainter {
   bool shouldRepaint(_CircleSlicePainter oldDelegate) {
     return angle != oldDelegate.angle ||
         fillColor != oldDelegate.fillColor ||
-        strokeColor != oldDelegate.strokeColor ||
-        strokeWidth != oldDelegate.strokeWidth;
+        border.side != oldDelegate.border.side ||
+        border.bottom != oldDelegate.border.bottom;
   }
 }

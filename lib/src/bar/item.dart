@@ -63,12 +63,12 @@ class _FortuneBarItem extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.symmetric(
             horizontal: BorderSide(
-              color: style.borderColor,
-              width: style.borderWidth / 2,
+              color: style.border.side.color,
+              width: style.border.side.width / 2,
             ),
             vertical: BorderSide(
-              color: style.borderColor,
-              width: style.borderWidth / 4,
+              color: style.border.bottom.color,
+              width: style.border.bottom.width / 4,
             ),
           ),
           color: style.color,

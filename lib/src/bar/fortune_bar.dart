@@ -19,8 +19,11 @@ class FortuneBar extends HookWidget implements FortuneWidget {
     ),
   ];
 
-  static const StyleStrategy kDefaultStyleStrategy =
-      UniformStyleStrategy(borderWidth: 4);
+  static const StyleStrategy kDefaultStyleStrategy = UniformStyleStrategy(
+      border: SliceBorder(
+    side: BorderSide(width: 4, color: Colors.black),
+    bottom: BorderSide(width: 4, color: Colors.black),
+  ));
 
   /// Requires this widget to have exactly this height.
   final double height;
@@ -139,9 +142,7 @@ class FortuneBar extends HookWidget implements FortuneWidget {
         builder: (context, panState) {
           return LayoutBuilder(builder: (context, constraints) {
             final size = Size(
-              fullWidth
-                  ? MediaQuery.of(context).size.width
-                  : constraints.maxWidth,
+              fullWidth ? MediaQuery.of(context).size.width : constraints.maxWidth,
               height,
             );
 
@@ -150,14 +151,11 @@ class FortuneBar extends HookWidget implements FortuneWidget {
                 AnimatedBuilder(
                     animation: animation,
                     builder: (context, _) {
-                      final itemPosition =
-                          (items.length * rotationCount + selectedIndex.value);
-                      final isAnimatingPanFactor =
-                          animationCtrl.isAnimating ? 0 : 1;
+                      final itemPosition = (items.length * rotationCount + selectedIndex.value);
+                      final isAnimatingPanFactor = animationCtrl.isAnimating ? 0 : 1;
                       final panFactor = 2 / size.width;
                       final panOffset = -panState.distance * panFactor;
-                      final position = animation.value * itemPosition +
-                          panOffset * isAnimatingPanFactor;
+                      final position = animation.value * itemPosition + panOffset * isAnimatingPanFactor;
 
                       return _InfiniteBar(
                         centerPosition: 1,
