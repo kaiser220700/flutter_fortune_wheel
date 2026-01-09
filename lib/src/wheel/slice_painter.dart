@@ -37,7 +37,8 @@ class _CircleSlicePainter extends CustomPainter {
     final fillPaint =
         Paint()
           ..style = PaintingStyle.fill
-          ..color = fillColor;
+          ..color = fillColor
+          ..isAntiAlias = true;
 
     if (gradient != null) {
       fillPaint.shader = gradient!.createShader(Rect.fromCircle(center: center, radius: radius));
@@ -53,7 +54,8 @@ class _CircleSlicePainter extends CustomPainter {
         Paint()
           ..color = border.left.color
           ..strokeWidth = border.left.width
-          ..style = PaintingStyle.stroke,
+          ..style = PaintingStyle.stroke
+          ..isAntiAlias = true,
       );
     }
 
@@ -65,7 +67,8 @@ class _CircleSlicePainter extends CustomPainter {
         Paint()
           ..color = border.right.color
           ..strokeWidth = border.right.width
-          ..style = PaintingStyle.stroke,
+          ..style = PaintingStyle.stroke
+          ..isAntiAlias = true,
       );
     }
 
@@ -79,7 +82,8 @@ class _CircleSlicePainter extends CustomPainter {
         Paint()
           ..color = border.bottom.color
           ..strokeWidth = border.bottom.width
-          ..style = PaintingStyle.stroke,
+          ..style = PaintingStyle.stroke
+          ..isAntiAlias = true,
       );
     }
   }
