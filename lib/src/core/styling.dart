@@ -129,7 +129,11 @@ class UniformStyleStrategy with DisableAwareStyleStrategy implements StyleStrate
             ),
         border: border ??
             SliceBorder(
-              side: BorderSide(
+              left: BorderSide(
+                color: theme.colorScheme.primary,
+                width: 1.0,
+              ),
+              right: BorderSide(
                 color: theme.colorScheme.primary,
                 width: 1.0,
               ),

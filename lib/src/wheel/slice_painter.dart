@@ -1,13 +1,11 @@
 part of 'wheel.dart';
 
 class SliceBorder {
-  final BorderSide side;
+  final BorderSide left;
+  final BorderSide right;
   final BorderSide bottom;
 
-  const SliceBorder({
-    this.side = BorderSide.none,
-    this.bottom = BorderSide.none,
-  });
+  const SliceBorder({this.left = BorderSide.none, this.right = BorderSide.none, this.bottom = BorderSide.none});
 }
 
 /// Draws a slice of a circle. The slice's arc starts at the right (3 o'clock)
@@ -28,52 +26,59 @@ class _CircleSlicePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final radius = _math.min(size.width, size.height);
-    final path = _CircleSlice.buildSlicePath(radius, angle);
+    final center = Offset.zero;
+
+    final startAngle = 0.0;
+    final endAngle = angle;
+
+    /// ===== Fill =====
+    final slicePath = _CircleSlice.buildSlicePath(radius, angle);
+
+    final fillPaint =
+        Paint()
+          ..style = PaintingStyle.fill
+          ..color = fillColor;
 
     if (gradient != null) {
-      canvas.drawPath(
-        path,
+      fillPaint.shader = gradient!.createShader(Rect.fromCircle(center: center, radius: radius));
+    }
+
+    canvas.drawPath(slicePath, fillPaint);
+
+    /// ===== Left edge =====
+    if (border.left.width > 0) {
+      canvas.drawLine(
+        center,
+        Offset(radius * _math.cos(startAngle), radius * _math.sin(startAngle)),
         Paint()
-          ..shader = gradient!.createShader(Rect.fromCircle(
-            center: Offset(0, 0),
-            radius: radius,
-          ))
-          ..style = PaintingStyle.fill,
-      );
-    } else {
-      // fill slice area
-      canvas.drawPath(
-        path,
-        Paint()
-          ..shader
-          ..color = fillColor
-          ..style = PaintingStyle.fill,
+          ..color = border.left.color
+          ..strokeWidth = border.left.width
+          ..style = PaintingStyle.stroke,
       );
     }
 
-    // draw slice border
-    if (border.side.width > 0) {
-      canvas.drawPath(
-        path,
+    /// ===== Right edge =====
+    if (border.right.width > 0) {
+      canvas.drawLine(
+        center,
+        Offset(radius * _math.cos(endAngle), radius * _math.sin(endAngle)),
         Paint()
-          ..color = border.side.color
-          ..strokeWidth = border.side.width
+          ..color = border.right.color
+          ..strokeWidth = border.right.width
           ..style = PaintingStyle.stroke,
       );
+    }
 
-      canvas.drawPath(
-        Path()
-          ..arcTo(
-              Rect.fromCircle(
-                center: Offset(0, 0),
-                radius: radius,
-              ),
-              0,
-              angle,
-              false),
+    /// ===== Arc (bottom) =====
+    if (border.bottom.width > 0) {
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: radius),
+        startAngle,
+        angle,
+        false,
         Paint()
           ..color = border.bottom.color
-          ..strokeWidth = border.bottom.width * 2
+          ..strokeWidth = border.bottom.width
           ..style = PaintingStyle.stroke,
       );
     }
