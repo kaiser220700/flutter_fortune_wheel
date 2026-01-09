@@ -48,42 +48,58 @@ class _CircleSlicePainter extends CustomPainter {
 
     /// ===== Left edge =====
     if (border.left.width > 0) {
+      final leftBorderPaint = Paint()
+        ..color = border.left.color
+        ..strokeWidth = border.left.width
+        ..style = PaintingStyle.stroke
+        ..isAntiAlias = true
+        ..strokeCap = StrokeCap.round;
+      // Extend slightly beyond radius to ensure overlap with adjacent slice
+      final leftEndPoint = Offset(
+        (radius + border.left.width / 2) * _math.cos(startAngle),
+        (radius + border.left.width / 2) * _math.sin(startAngle),
+      );
       canvas.drawLine(
         center,
-        Offset(radius * _math.cos(startAngle), radius * _math.sin(startAngle)),
-        Paint()
-          ..color = border.left.color
-          ..strokeWidth = border.left.width
-          ..style = PaintingStyle.stroke
-          ..isAntiAlias = true,
+        leftEndPoint,
+        leftBorderPaint,
       );
     }
 
     /// ===== Right edge =====
     if (border.right.width > 0) {
+      final rightBorderPaint = Paint()
+        ..color = border.right.color
+        ..strokeWidth = border.right.width
+        ..style = PaintingStyle.stroke
+        ..isAntiAlias = true
+        ..strokeCap = StrokeCap.round;
+      // Extend slightly beyond radius to ensure overlap with adjacent slice
+      final rightEndPoint = Offset(
+        (radius + border.right.width / 2) * _math.cos(endAngle),
+        (radius + border.right.width / 2) * _math.sin(endAngle),
+      );
       canvas.drawLine(
         center,
-        Offset(radius * _math.cos(endAngle), radius * _math.sin(endAngle)),
-        Paint()
-          ..color = border.right.color
-          ..strokeWidth = border.right.width
-          ..style = PaintingStyle.stroke
-          ..isAntiAlias = true,
+        rightEndPoint,
+        rightBorderPaint,
       );
     }
 
     /// ===== Arc (bottom) =====
     if (border.bottom.width > 0) {
+      final arcBorderPaint = Paint()
+        ..color = border.bottom.color
+        ..strokeWidth = border.bottom.width
+        ..style = PaintingStyle.stroke
+        ..isAntiAlias = true
+        ..strokeCap = StrokeCap.round;
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
         startAngle,
         angle,
         false,
-        Paint()
-          ..color = border.bottom.color
-          ..strokeWidth = border.bottom.width
-          ..style = PaintingStyle.stroke
-          ..isAntiAlias = true,
+        arcBorderPaint,
       );
     }
   }
